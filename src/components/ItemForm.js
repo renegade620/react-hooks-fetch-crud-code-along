@@ -19,8 +19,14 @@ function ItemForm({ onAddItem }) {
       },
       body: JSON.stringify(itemData),
     })
-    .then((r) => r.json())
-    .then((newItem) => onAddItem(newItem));
+      .then((r) => r.json())
+      .then((newItem) => {
+        onAddItem(newItem);
+      console.log("New item added:", newItem);
+    });
+
+    setName("");
+    setCategory("Produce");
   }
 
   return (

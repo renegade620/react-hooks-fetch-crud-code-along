@@ -10,24 +10,30 @@ function ShoppingList() {
   // useEffect hook
   useEffect(() => {
     fetch("http://localhost:4000/items")
-    .then((r) => r.json())
-    .then((items) => setItems(items));
+      .then((r) => r.json())
+      .then((items) => setItems(items));
   }, []);
 
   // function to add new item
   function handleAdItem(newItem) {
     setItems([...items], newItem);
+    console.log("Items after adding new item:", [...items, newItem]);
   }
 
   // callback function
   function handleUpdateItem(updatedItem) {
     const updatedItems = items.map((item) => {
-      if(item.id === updatedItem.id) {
+      if (item.id === updatedItem.id) {
         return updatedItem;
       } else {
         return item;
       }
     });
+    setItems(updatedItems);
+  }
+
+  function handleDeleteItem(deletedItem) {
+    const updatedItems = items.filter((item) => item.id !== deletedItem.id);
     setItems(updatedItems);
   }
 
@@ -43,14 +49,19 @@ function ShoppingList() {
 
   return (
     <div className="ShoppingList">
-      <ItemForm onAddItem={handleAdItem}/>
+      <ItemForm onAddItem={handleAdItem} />
       <Filter
         category={selectedCategory}
         onCategoryChange={handleCategoryChange}
       />
       <ul className="Items">
         {itemsToDisplay.map((item) => (
-          <Item key={item.id} item={item} onUpdateItem={handleUpdateItem}/>
+          <Item
+            key={item.id}
+            item={item}
+            onUpdateItem={handleUpdateItem}
+            onDeleteItem={handleDeleteItem}
+          />
         ))}
       </ul>
     </div>
