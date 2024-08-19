@@ -14,6 +14,11 @@ function ShoppingList() {
     .then((items) => setItems(items));
   }, []);
 
+  // function to add new item
+  function handleAdItem(newItem) {
+    setItems([...items], newItem);
+  }
+
   function handleCategoryChange(category) {
     setSelectedCategory(category);
   }
@@ -26,7 +31,7 @@ function ShoppingList() {
 
   return (
     <div className="ShoppingList">
-      <ItemForm />
+      <ItemForm onAddItem={handleAdItem}/>
       <Filter
         category={selectedCategory}
         onCategoryChange={handleCategoryChange}
